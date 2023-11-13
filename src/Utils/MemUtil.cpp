@@ -3,6 +3,8 @@
 
 #include "Utils/MemUtil.h"
 
+#include <Psapi.h>
+
 char* BasicPatternScan(char* Base, size_t Size, char* Pattern, char* Mask)
 {
 	size_t PatternLen = strlen(Mask);
@@ -91,6 +93,70 @@ void Mem::PatchByte(BYTE* Dst, BYTE* Src, unsigned int Size)
 	memcpy(Dst, Src, Size);
 	VirtualProtect(Dst, Size, oProc, &oProc);
 }
+
+void Mem::PatchNop(BYTE* Dst, unsigned int Size)
+{
+	BYTE* NopArray = new BYTE[Size];
+	memset(NopArray, 0x90, Size);
+
+	PatchByte(Dst, NopArray, Size);
+
+	delete[] NopArray;
+}
+
+
+/// Hook Utils
+bool Hook:: StartHook(char* Src, char* Dst, int Len)
+{
+	if (Len < 5)
+		return FALSE;
+
+	DWORD oProc;
+
+	VirtualProtect(Src, Len, PAGE_EXECUTE_READWRITE, &oProc);
+
+	// Nop out 5 byte location
+	memset(Src, 0x90, Len);
+
+	uintptr_t RelAddy = uintptr_t(Dst - Src - 5);
+
+	// Jmp
+	*Src = (char)0xE9;
+
+	// Jmp RelAddy
+	*(uintptr_t*)(Src + 1) = (uintptr_t)RelAddy;
+
+	VirtualProtect(Src, Len, oProc, &oProc);
+
+	return TRUE;
+}
+
+char* Hook::Tramphook(char* Src, char* Dst, unsigned int Len)
+{
+	if (Len < 5)
+		return 0;
+
+	char* Gateway = (char*)VirtualAlloc(0, Len + 5, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
+
+	// Cpy the Source bytes into the Gateway Memspace
+	memcpy(Gateway, Src, Len);
+
+	uintptr_t GateRelAddy = (uintptr_t)(Src - Gateway - 5);
+
+	// Jmp
+	*(Gateway + Len) = (char)0xE9;
+
+	*(uintptr_t*)(Gateway + Len + 1) = GateRelAddy;
+
+	if (StartHook(Src, Dst, Len))
+		return Gateway;
+	else
+		return nullptr;
+}
+
+
+
+
 
 
 #endif //INTTEMPLATE_MEMUTIL_CPP

@@ -204,4 +204,10 @@ public:
     float x, y, z;
 };
 
+
+struct Vec2
+{
+    float x, y;
+};
+
 #endif //INTTEMPLATE_VECTORUTIL_H

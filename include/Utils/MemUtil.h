@@ -2,8 +2,6 @@
 #define INTTEMPLATE_MEMUTIL_H
 
 #include <Windows.h>
-#include <Psapi.h>
-
 #include <vector>
 
 
@@ -14,7 +12,18 @@ namespace Mem
 	uintptr_t PatternScanModule(char* Module, char* Pattern, char* Mask);
 
 	void PatchByte(BYTE* Dst, BYTE* Src, unsigned int Size);
+
+	void PatchNop(BYTE* Dst, unsigned int Size);
 }
+
+
+namespace Hook
+{
+	bool StartHook(char* Src, char* Dst, int Len);
+
+	char* Tramphook(char* Src, char* Dst, unsigned int Len);
+}
+
 
 char* BasicPatternScan(char* Base, size_t Size, char* Pattern, char* Mask);
 

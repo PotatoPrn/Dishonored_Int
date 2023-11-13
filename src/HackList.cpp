@@ -1,46 +1,44 @@
-#ifndef INTTEMPLATE_HACKLIST_CPP
-#define INTTEMPLATE_HACKLIST_CPP
+#include "Utils/MemUtil.h"
+#include "Utils/GameUtils.h"
 
-#include "HackList.h"
-#include "Utils/UiUtil.h"
-
-#include <iostream>
-
-HackThread_T HackThread;
+#include "MainHackThread.h"
 
 
-void HackThread_T::Init()
+void HackThread::HackFunctions::H_Stats()
 {
-	const char* ModuleName = "";
-
-	do
-	{
-		HackThread.ModuleBase = (uintptr_t)GetModuleHandleA(ModuleName);
-	} while (HackThread.ModuleBase == NULL);
-
-	// Probs setup Directx stuff if needed in the future
+	HThread.PlayerEnt->Health = 70;
+	HThread.PlayerEnt->Mana = 100;
+	HThread.PlayerEnt->WaterBreathe = 30;
 }
 
 
-void HackThread_T::MainHackThread()
+void HackThread::HackFunctions::H_Ammo()
 {
-	HackThread.Init();
+	int NumberOfItems = 8;
 
-	while (true)
+	uintptr_t InventoryPtr = Mem::FindDMAAddy(HThread.ModuleBase + GOffset.PlayerEnt, { 0x59c, 0xBC, 0x0 });
+
+	for (unsigned int i = 0; i < NumberOfItems; i++)
+		*(int*)(InventoryPtr + i * 8) = 30;
+}
+
+
+void HackThread::HackFunctions::H_TPEnt()
+{
+	if (HThread.BStat != nullptr && HThread.BStat->BlinkInfo != nullptr)
 	{
+		uintptr_t EntityListAddress = Mem::FindDMAAddy(HThread.ModuleBase + GOffset.EntList, { 0x48, 0x280, 0x0 });
 
-		if (GetAsyncKeyState(VK_DELETE) & 1)
-			break;
+		for (unsigned int i = 0; i < 128; i++)
+		{
+			PlayerObject* Entity = *(PlayerObject**)(EntityListAddress + i * 0x04);
+			// Entitys from ENtlist dont use the same class as the player :/
 
-		if (GetAsyncKeyState(VK_F10) & 1)
-			THacks.TestToggle = !THacks.TestToggle;
-
-		if (THacks.TestToggle)
-			std::cout << std::hex << HackThread.ModuleBase << "\n";
-
-		ClearConsole();
+			if (ValidateEntity(Entity))
+			{
+				Entity->BodyPos3 = HThread.BStat->BlinkPos;
+			}
+		}
 	}
 }
 
-
-#endif //INTTEMPLATE_HACKLIST_CPP
