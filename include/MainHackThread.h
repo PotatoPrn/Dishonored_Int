@@ -40,9 +40,10 @@ public:
 	struct HackFunctions
 	{
 		void H_Stats();
-		void H_Ammo();
-		void H_TPEnt();
 
+		void H_Ammo();
+
+		void H_TPEnt();
 	} HFunction;
 };
 

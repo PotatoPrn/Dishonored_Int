@@ -106,7 +106,7 @@ void Mem::PatchNop(BYTE* Dst, unsigned int Size)
 
 
 /// Hook Utils
-bool Hook:: StartHook(char* Src, char* Dst, int Len)
+bool Hook::StartHook(char* Src, char* Dst, int Len)
 {
 	if (Len < 5)
 		return FALSE;
@@ -153,10 +153,6 @@ char* Hook::Tramphook(char* Src, char* Dst, unsigned int Len)
 	else
 		return nullptr;
 }
-
-
-
-
 
 
 #endif //INTTEMPLATE_MEMUTIL_CPP

@@ -71,5 +71,3 @@ bool DX9Utils::Initd3d9(void** pTable, size_t Size)
 	PD3D->Release();
 	return true;
 }
-
-

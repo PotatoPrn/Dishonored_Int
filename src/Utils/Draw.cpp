@@ -53,12 +53,14 @@ void DrawUtils::DrawMenu()
 		DrawTextF("Show Menu [F1]", MenuOffx, MenuOffy, D3DCOLOR_ARGB(255, 255, 255, 255));
 	else
 	{
-
 		DrawTextF("Stat Hack [F10]", MenuOffx, MenuOffy + 0 * 18, HThread.THack.T_Stats ? Enabled : Disabled);
-		DrawTextF("Teleport Entity to Blink Hack [F9]", MenuOffx, MenuOffy + 1 * 18, HThread.THack.T_BlinkReady ? Enabled : Disabled);
+		DrawTextF("Teleport Entity to Blink Hack [F9]", MenuOffx, MenuOffy + 1 * 18,
+			HThread.THack.T_BlinkReady ? Enabled : Disabled);
 		DrawTextF("Power Hack [F8]", MenuOffx, MenuOffy + 2 * 18, HThread.THack.T_PowerTimer ? Enabled : Disabled);
-		DrawTextF("Player Detection Hack [F7]", MenuOffx, MenuOffy + 3 * 18, HThread.THack.T_PlayerDetection ? Enabled : Disabled);
-		DrawTextF("Add Runes Instead of Decreasing [F6]", MenuOffx, MenuOffy + 4 * 18, HThread.THack.T_Runes ? Enabled : Disabled);
+		DrawTextF("Player Detection Hack [F7]", MenuOffx, MenuOffy + 3 * 18,
+			HThread.THack.T_PlayerDetection ? Enabled : Disabled);
+		DrawTextF("Add Runes Instead of Decreasing [F6]", MenuOffx, MenuOffy + 4 * 18,
+			HThread.THack.T_Runes ? Enabled : Disabled);
 		DrawTextF("Max Blink Hack [F5]", MenuOffx, MenuOffy + 5 * 18, HThread.THack.T_BlinkReady ? Enabled : Disabled);
 	}
 }

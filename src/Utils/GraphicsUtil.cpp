@@ -36,9 +36,4 @@ HWND ProcessUtils_T::GetDeviceWindow()
 }
 
 
-
-
-
-
-
 #endif //INTTEMPLATE_GRAPHICSUTILS_CPP

@@ -10,4 +10,3 @@ bool ValidateEntity(PlayerObject* Entity)
 
 	return true;
 }
-

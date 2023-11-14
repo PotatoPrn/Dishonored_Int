@@ -5,7 +5,6 @@
 #include <d3dx9.h>
 
 
-
 #include <Windows.h>
 
 #include "Utils/VectorUtil.h"
@@ -44,13 +43,12 @@ public:
 	ID3DXFont* FontF;
 
 	void DrawLineF(int x1, int y1, int x2, int y2, int Thickness, D3DCOLOR Color);
+
 	void DrawLineF(Vec2 Src, Vec2 Dst, int Thickness, D3DCOLOR Color);
 
 	void DrawTextF(const char* Text, float x, float y, D3DCOLOR Color);
 
 	void DrawMenu();
-
-
 };
 
 extern DrawUtils DUtils;
