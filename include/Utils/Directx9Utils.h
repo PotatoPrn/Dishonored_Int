@@ -4,12 +4,13 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 
-#pragma comment(lib, "d3d9.lib")
-#pragma comment(lib, "d3dx9.lib")
+
 
 #include <Windows.h>
 
 #include "Utils/VectorUtil.h"
+
+static HWND Window;
 
 class DX9Utils
 {
@@ -24,7 +25,6 @@ public:
 
 
 	// Window Handles
-	static HWND Window;
 	int WindowWidth, WindowHeight;
 
 
@@ -42,15 +42,6 @@ public:
 	// Draw Variables
 	ID3DXLine* LineL;
 	ID3DXFont* FontF;
-
-	~DrawUtils()
-	{
-		if (LineL)
-			LineL->Release();
-
-		if (FontF)
-			FontF->Release();
-	}
 
 	void DrawLineF(int x1, int y1, int x2, int y2, int Thickness, D3DCOLOR Color);
 	void DrawLineF(Vec2 Src, Vec2 Dst, int Thickness, D3DCOLOR Color);

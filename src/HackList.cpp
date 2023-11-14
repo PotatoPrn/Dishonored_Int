@@ -25,20 +25,20 @@ void HackThread::HackFunctions::H_Ammo()
 
 void HackThread::HackFunctions::H_TPEnt()
 {
-	if (HThread.BStat != nullptr && HThread.BStat->BlinkInfo != nullptr)
-	{
-		uintptr_t EntityListAddress = Mem::FindDMAAddy(HThread.ModuleBase + GOffset.EntList, { 0x48, 0x280, 0x0 });
+	uintptr_t EntityListAddress = Mem::FindDMAAddy(HThread.ModuleBase + GOffset.EntList, { 0x48, 0x280, 0x0 });
 
-		for (unsigned int i = 0; i < 128; i++)
+	if (HThread.BStat != nullptr && HThread.BStat->BlinkInfo != nullptr && EntityListAddress != NULL)
+	{
+		for (unsigned int i = 0; i < 64; i++) // 128 is too big
 		{
 			PlayerObject* Entity = *(PlayerObject**)(EntityListAddress + i * 0x04);
 			// Entitys from ENtlist dont use the same class as the player :/
 
-			if (ValidateEntity(Entity))
+			if (ValidateEntity(Entity) && Entity->Health != HThread.PlayerEnt->Health)
 			{
 				Entity->BodyPos3 = HThread.BStat->BlinkPos;
 			}
 		}
 	}
+	EntityListAddress = NULL;
 }
-

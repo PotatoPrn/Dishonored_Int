@@ -7,18 +7,19 @@ BOOL CALLBACK EnumWind(HWND Handle, LPARAM lp)
 	GetWindowThreadProcessId(Handle, &ProcID);
 
 	if (GetCurrentProcessId() != ProcID)
-		return false;
+		return TRUE;
 
 	if (Handle == GetConsoleWindow())
-		return false;
+		return TRUE;
 
-	return true;
+	Window = Handle;
+	return FALSE;
 }
 
 
 HWND DX9Utils::GetDeviceWindow()
 {
-	Window == NULL;
+	Window == nullptr;
 
 	EnumWindows(EnumWind, NULL);
 
@@ -70,3 +71,5 @@ bool DX9Utils::Initd3d9(void** pTable, size_t Size)
 	PD3D->Release();
 	return true;
 }
+
+

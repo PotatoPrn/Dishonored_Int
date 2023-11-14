@@ -19,6 +19,8 @@ public:
 
 	struct ToggledHacks
 	{
+		bool T_Menu = false;
+
 		bool T_Stats = false;
 
 		bool T_AmmoHack = false;
@@ -30,6 +32,8 @@ public:
 		bool T_Runes = false;
 
 		bool T_Teleport = false;
+
+		bool T_BlinkReady = false;
 	} THack;
 
 
