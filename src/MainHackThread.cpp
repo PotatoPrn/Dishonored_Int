@@ -118,21 +118,7 @@ void HackThread::MainHackThread()
 		Mem::PatchByte((BYTE*)(ModuleBase + GOffset.F_Runes), (BYTE*)"\x2B\xD7",
 			2); // sub EDX, EDI
 
-
-	/// Display Functions
-	bool DisplayHK = true;
-	if (DisplayHK)
-	{
-		DISPLAY(DEL Exit Hack, true);
-		DISPLAY(F10 Infinite Stats, THack.T_Stats);
-		DISPLAY(F9 Ent Hack, THack.T_EntHack);
-		DISPLAY(F8 Infinite Power, THack.T_PowerTimer);
-		DISPLAY(F7 Disable Player Detection, THack.T_PlayerDetection);
-		DISPLAY(F6 Enable Rune Hack, THack.T_Runes);
-		DISPLAY(F5 Modify BlinkDistance, THack.T_Teleport);
-	}
-
-	ClearConsole();
+	//DUtils.DrawESP();
 }
 
 

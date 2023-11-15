@@ -29,7 +29,6 @@ void APIENTRY hkEndScene(LPDIRECT3DDEVICE9 o_pDevice)
 /// Init Hack Thread
 void InitHack(HMODULE hModule)
 {
-
 	if (D9Utils.Initd3d9(D9Utils.D3D9Device, sizeof(D9Utils.D3D9Device)))
 	{
 		memcpy(D9Utils.EndSceneBytes, (char*)D9Utils.D3D9Device[42], 7);

@@ -2,9 +2,10 @@
 
 #include "Utils/Directx9Utils.h"
 
-#include "MainHackThread.h"
+#include "Utils/MemUtil.h"
 
 #include <sstream>
+#include <Utils/GameUtils.h>
 
 void DrawUtils::DrawLineF(int x1, int y1, int x2, int y2, int Thickness, D3DCOLOR Color)
 {
@@ -38,8 +39,6 @@ void DrawUtils::DrawTextF(const char* Text, float x, float y, D3DCOLOR Color)
 	FontF->DrawText(NULL, Text, -1, &Rect, DT_CENTER | DT_NOCLIP, Color);
 }
 
-char* TeleportMsg;
-
 void DrawUtils::DrawMenu()
 {
 	int MenuOffx = D9Utils.WindowWidth / 2;
@@ -62,5 +61,31 @@ void DrawUtils::DrawMenu()
 		DrawTextF("Add Runes Instead of Decreasing [F6]", MenuOffx, MenuOffy + 4 * 18,
 			HThread.THack.T_Runes ? Enabled : Disabled);
 		DrawTextF("Max Blink Hack [F5]", MenuOffx, MenuOffy + 5 * 18, HThread.THack.T_BlinkReady ? Enabled : Disabled);
+	}
+}
+
+void DrawUtils::DrawESP()
+{
+	uintptr_t EntityListAddress = Mem::FindDMAAddy(HThread.ModuleBase + GOffset.EntList, { 0x48, 0x280, 0x0 });
+
+
+	float Matrix[9];
+	memcpy(&Matrix, (PBYTE)(HThread.ModuleBase + 0x1072F10), sizeof(Matrix));
+
+	for (unsigned int i = 0; i < 64; i++)
+	{
+		PlayerObject* Entity = *(PlayerObject**)(EntityListAddress + i * 0x04);
+
+		if (ValidateEntity(Entity))
+		{
+			Vec2 EntPos;
+
+			D3DCOLOR Color = D3DCOLOR_ARGB(255, 255, 0, 0);
+
+			if (W2Screen(Matrix, Entity->BodyPos3, EntPos))
+			{
+				DrawLineF(EntPos.x, EntPos.y, D9Utils.WindowWidth / 2, D9Utils.WindowHeight - 20, 2, Color);
+			}
+		}
 	}
 }

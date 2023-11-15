@@ -49,6 +49,8 @@ public:
 	void DrawTextF(const char* Text, float x, float y, D3DCOLOR Color);
 
 	void DrawMenu();
+
+	void DrawESP();
 };
 
 extern DrawUtils DUtils;

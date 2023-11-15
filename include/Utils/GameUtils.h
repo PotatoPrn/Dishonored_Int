@@ -5,4 +5,6 @@
 
 bool ValidateEntity(PlayerObject* Entity);
 
+bool W2Screen(float Matrix[9], Vec3 Pos, Vec2& Screen);
+
 #endif //GAMEUTILS_H
